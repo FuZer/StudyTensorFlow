@@ -5,7 +5,7 @@ import input_data
 
 
 learning_rate = 0.01
-training_epochs = 20
+training_epochs = 2000
 batch_size = 100
 display_step = 1
 

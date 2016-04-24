@@ -1,14 +1,10 @@
 import os
 import sys
 
-
 import scipy.ndimage as nd
 import tensorflow as tf
 import numpy as np
 import cv2
-
-
-
 
 def getBestShift(img):
     cy,cx = nd.measurements.center_of_mass(img)
@@ -27,6 +23,16 @@ def shift(img,sx,sy):
     shifted = cv2.warpAffine(img,M,(cols,rows))
     return shifted
 
+lable = [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]]
 
 x = tf.placeholder("float", [None, 784])  # mnist data image of shape 28*28=784
 y = tf.placeholder("float", [None, 10])  # 0-9 digits recognition => 10 classes
@@ -34,6 +40,9 @@ W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
 
 activation = tf.nn.softmax(tf.matmul(x, W) + b)  # Softmax
+
+cost = tf.reduce_mean(-tf.reduce_sum(y * tf.log(activation), reduction_indices=1))  # Cross entropy
+optimizer = tf.train.GradientDescentOptimizer(0.01).minimize(cost)  # Gradient Descent
 
 image = sys.argv[1]
 
@@ -71,7 +80,7 @@ else:
 for cropped_width in range(100, 300, 20):
     for cropped_height in range(100, 300, 20):
         for shift_x in range(0, width - cropped_width, cropped_width / 4):
-            for shift_y in range(0, height - cropped_height, cropped_height / 4):
+            for shift_y in range(0, height - cropped_height, cropped_height /4):
                 gray = gray_complete[shift_y:shift_y + cropped_height, shift_x:shift_x + cropped_width]
                 if np.count_nonzero(gray) <= 20:
                     continue
@@ -123,8 +132,6 @@ for cropped_width in range(100, 300, 20):
                 shifted = shift(gray, shiftx, shifty)
                 gray = shifted
 
-                cv2.imwrite("pro-img/" + str(shift_x) + "_" + str(shift_y) + ".png", gray)
-
                 """
                 and not from 0-255 so we divide our flatten images
                 all images in the training set have an range from 0-1
@@ -132,8 +139,7 @@ for cropped_width in range(100, 300, 20):
                 to use the same 0-1 based range
                 """
 
-                feed = gray.flatten()
-                feed = np.reshape(feed, (-1, 784))
+                feed = gray.flatten() / 255.0
 
                 print "Prediction for ", (shift_x, shift_y, cropped_width)
                 print "Pos"
@@ -142,19 +148,33 @@ for cropped_width in range(100, 300, 20):
                 print actual_w_h
                 print " "
 
-                pred = sess.run(tf.argmax(activation, 1), feed_dict={x: feed})
-                print 'the number is ' + str(pred)
+                a = tf.nn.softmax(tf.matmul(x,W) + b)
+                prediction = [tf.reduce_max(a), tf.argmax(a, 1)[0]]
+                pred = sess.run(prediction, feed_dict={x: [feed]})
+                print 'the number is ' + str(pred[1])
+                print str(pred[0] * 100) + '%'
 
-                digit_image[top_left[0]:bottom_right[0], top_left[1]:bottom_right[1]] = pred[0]
+                cv2.imwrite("pro-img/" + str(shift_x) + "_" + str(shift_y) + " : " + str(pred[1]) + "_" + str(pred[0] * 100)+"%.png", gray)
+
+                check = input("is it right? : ")
+
+                if (check == True):
+                    sess.run(optimizer, feed_dict={x: [feed], y: [lable[pred[1]]]})
+
+
+
+                digit_image[top_left[0]:bottom_right[0], top_left[1]:bottom_right[1]] = pred[1]
 
                 cv2.rectangle(color_complete, tuple(top_left[::-1]), tuple(bottom_right[::-1]), color=(0, 255, 0),
                               thickness=5)
 
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(color_complete, str(pred[0]), (top_left[1], bottom_right[0] + 50),
-                            font, fontScale=1.4, color=(0, 255, 0), thickness=4)
+                cv2.putText(color_complete, str(pred[1]), (top_left[1], bottom_right[0] + 50),
+                            font, fontScale=1, color=(0, 255, 0), thickness=4)
                 cv2.putText(color_complete, format(pred[0] * 100, ".1f") + "%",
                             (top_left[1] + 30, bottom_right[0] + 60),
-                            font, fontScale=0.8, color=(0, 255, 0), thickness=2)
+                            font, fontScale=0.5, color=(0, 255, 0), thickness=2)
 
 cv2.imwrite("pro-img/digitized_image.png", color_complete)
+saver.save(sess, checkpoint_dir + 'model.ckpt')
+print 'finish the test'

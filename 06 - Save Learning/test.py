@@ -6,6 +6,16 @@ import tensorflow as tf
 import numpy as np
 import cv2
 
+def xaver_init(n_inputs, n_outputs, uniform = True):
+    if uniform:
+        init_range = tf.sqrt(6.0/ (n_inputs + n_outputs))
+        return tf.random_uniform_initializer(-init_range, init_range)
+
+    else:
+        stddev = tf.sqrt(3.0 / (n_inputs + n_outputs))
+        return tf.truncated_normal_initializer(stddev=stddev)
+
+
 def getBestShift(img):
     cy,cx = nd.measurements.center_of_mass(img)
     print (cy,cx)
@@ -36,10 +46,19 @@ lable = [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 
 x = tf.placeholder("float", [None, 784])  # mnist data image of shape 28*28=784
 y = tf.placeholder("float", [None, 10])  # 0-9 digits recognition => 10 classes
-W = tf.Variable(tf.zeros([784, 10]))
-b = tf.Variable(tf.zeros([10]))
 
-activation = tf.nn.softmax(tf.matmul(x, W) + b)  # Softmax
+W1 = tf.get_variable("W1", shape=[784, 500], initializer=xaver_init(784, 500))
+W2 = tf.get_variable("W2", shape=[500, 256], initializer=xaver_init(784, 256))
+W3 = tf.get_variable("W3", shape=[256, 10], initializer=xaver_init(500, 256))
+
+b1 = tf.Variable(tf.zeros([500]))
+b2 = tf.Variable(tf.zeros([256]))
+b3 = tf.Variable(tf.zeros([10]))
+
+L1 = tf.nn.relu(tf.add(tf.matmul(x, W1), b1))  # Softmax
+L2 = tf.nn.relu(tf.add(tf.matmul(L1, W2), b2))  # Softmax
+activation = tf.add(tf.matmul(L2, W3), b3)  # Softmax
+
 
 cost = tf.reduce_mean(-tf.reduce_sum(y * tf.log(activation), reduction_indices=1))  # Cross entropy
 optimizer = tf.train.GradientDescentOptimizer(0.01).minimize(cost)  # Gradient Descent
@@ -148,8 +167,8 @@ for cropped_width in range(100, 300, 20):
                 print actual_w_h
                 print " "
 
-                a = tf.nn.softmax(tf.matmul(x,W) + b)
-                prediction = [tf.reduce_max(a), tf.argmax(a, 1)[0]]
+
+                prediction = [tf.reduce_max(activation), tf.argmax(activation, 1)[0]]
                 pred = sess.run(prediction, feed_dict={x: [feed]})
                 print 'the number is ' + str(pred[1])
                 print str(pred[0] * 100) + '%'
@@ -160,6 +179,10 @@ for cropped_width in range(100, 300, 20):
 
                 if (check == True):
                     sess.run(optimizer, feed_dict={x: [feed], y: [lable[pred[1]]]})
+
+                elif(check == False):
+                    num = input("what is that? : ")
+                    sess.run(optimizer, feed_dict={x: [feed], y: [lable[num]]})
 
 
 
@@ -178,3 +201,4 @@ for cropped_width in range(100, 300, 20):
 cv2.imwrite("pro-img/digitized_image.png", color_complete)
 saver.save(sess, checkpoint_dir + 'model.ckpt')
 print 'finish the test'
+

@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
+
 xy = np.loadtxt('05train.txt', unpack=True, dtype='float32')
 x_data = np.transpose(xy[0:3])
 y_data = np.transpose(xy[3:])

@@ -45,17 +45,17 @@ lable = [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]]
 
 x = tf.placeholder("float", [None, 784])  # mnist data image of shape 28*28=784
-y = tf.placeholder("float", [None, 10])  # 0-9 digits recognition => 10 classes
 
+y = tf.placeholder("float", [None, 10])  # 0-9 digits recognition => 10 classes
 W1 = tf.get_variable("W1", shape=[784, 500], initializer=xaver_init(784, 500))
 W2 = tf.get_variable("W2", shape=[500, 256], initializer=xaver_init(784, 256))
 W3 = tf.get_variable("W3", shape=[256, 10], initializer=xaver_init(500, 256))
 
 b1 = tf.Variable(tf.zeros([500]))
 b2 = tf.Variable(tf.zeros([256]))
-b3 = tf.Variable(tf.zeros([10]))
 
 L1 = tf.nn.relu(tf.add(tf.matmul(x, W1), b1))  # Softmax
+b3 = tf.Variable(tf.zeros([10]))
 L2 = tf.nn.relu(tf.add(tf.matmul(L1, W2), b2))  # Softmax
 activation = tf.add(tf.matmul(L2, W3), b3)  # Softmax
 
@@ -96,8 +96,8 @@ else:
     print 'you have to run traning.py'
     exit(1)
 
-for cropped_width in range(100, 300, 20):
-    for cropped_height in range(100, 300, 20):
+for cropped_width in range(50, 1000, 20):
+    for cropped_height in range(50, 1000, 20):
         for shift_x in range(0, width - cropped_width, cropped_width / 4):
             for shift_y in range(0, height - cropped_height, cropped_height /4):
                 gray = gray_complete[shift_y:shift_y + cropped_height, shift_x:shift_x + cropped_width]

@@ -19,12 +19,12 @@ display_step = 1
 x = tf.placeholder("float", [None, 784])  # mnist data image of shape 28*28=784
 
 # Create model
-y = tf.placeholder("float", [None, 10])  # 0-9 digits recognition => 10 classes
 
 # Set model weights
+y = tf.placeholder("float", [None, 10])  # 0-9 digits recognition => 10 classes
 W1 = tf.get_variable("W1", shape=[784, 500], initializer=xaver_init(784, 500))
-W2 = tf.get_variable("W2", shape=[500, 256], initializer=xaver_init(784, 256))
-W3 = tf.get_variable("W3", shape=[256, 10], initializer=xaver_init(500, 256))
+W2 = tf.get_variable("W2", shape=[500, 256], initializer=xaver_init(500, 256))
+W3 = tf.get_variable("W3", shape=[256, 10], initializer=xaver_init(256, 10))
 
 b1 = tf.Variable(tf.zeros([500]))
 b2 = tf.Variable(tf.zeros([256]))
@@ -53,7 +53,7 @@ with tf.Session() as sess:
 
     ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
     if ckpt and ckpt.model_checkpoint_path:
-        print 'load learning'
+        print ('load learning')
         saver.restore(sess, ckpt.model_checkpoint_path)
 
     # Training cycle
@@ -66,8 +66,10 @@ with tf.Session() as sess:
             # Fit training using batch data
             sess.run(optimizer, feed_dict={x: batch_xs, y: batch_ys})
             # Compute average loss
-            avg_cost += sess.run(cost, feed_dict={x: batch_xs, y: batch_ys}) / total_batch
+
         # Display logs per epoch step
+
+        avg_cost += sess.run(cost, feed_dict={x: batch_xs, y: batch_ys}) / total_batch
         if epoch % display_step == 0: # Softmax
             print ("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost))
             print (sess.run(b3))

@@ -1,8 +1,8 @@
 import tensorflow as tf
 import numpy as np
 
-
 xy = np.loadtxt('05train.txt', unpack=True, dtype='float32')
+
 x_data = np.transpose(xy[0:3])
 y_data = np.transpose(xy[3:])
 
@@ -18,6 +18,7 @@ learning_rate = 0.01
 cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), reduction_indices=1))
 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+
 
 init = tf.initialize_all_variables()
 
@@ -37,4 +38,3 @@ with tf.Session() as sess:
 
     c = sess.run(hypothesis, feed_dict={X: [[1, 1, 0]]})
     print "c :", c, sess.run(tf.arg_max(c, 1))
-

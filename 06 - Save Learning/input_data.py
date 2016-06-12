@@ -112,6 +112,7 @@ class DataSet(object):
       assert batch_size <= self._num_examples
     end = self._index_in_epoch
     return self._images[start:end], self._labels[start:end]
+
 def read_data_sets(train_dir, fake_data=False, one_hot=False):
   class DataSets(object):
     pass

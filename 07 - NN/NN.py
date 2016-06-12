@@ -22,8 +22,8 @@ w7 = tf.Variable(tf.random_uniform([10, 10], -1.0, 1.0), name='weight7')
 w8 = tf.Variable(tf.random_uniform([10, 1], -1.0, 1.0), name='weight8')
 
 b1 = tf.Variable(tf.zeros([5]), name="Bias1")
-b2 = tf.Variable(tf.zeros([10]), name="Bias2")
 b3 = tf.Variable(tf.zeros([10]), name="Bias3")
+b2 = tf.Variable(tf.zeros([10]), name="Bias2")
 b4 = tf.Variable(tf.zeros([10]), name="Bias4")
 b5 = tf.Variable(tf.zeros([10]), name="Bias5")
 b6 = tf.Variable(tf.zeros([10]), name="Bias6")
@@ -62,7 +62,7 @@ with tf.Session() as sess:
     sess.run(init)
 
     merged = tf.merge_all_summaries()
-    writer = tf.train.SummaryWriter("./logs/xor_logs", sess.graph_def)
+    writer = tf.train.SummaryWriter("./logs/xor_logs", sess.graph)
 
     for step in xrange(20000):
         sess.run(train, feed_dict={X: x_data, Y: y_data})

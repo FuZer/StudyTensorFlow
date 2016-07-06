@@ -20,5 +20,5 @@
 [5\. Softmax](https://github.com/FuZer/Study_TensorFlow/tree/master/05%20-%20Softmax%20Classification)<br>
 [6\. MNIST, 학습 세이브](https://github.com/FuZer/Study_TensorFlow/tree/master/06%20-%20Save%20Learning)<br>
 [7\. 뉴럴 네트워크](https://github.com/FuZer/Study_TensorFlow/tree/master/07%20-%20NN)<br>
-[8\. CNN](https://)<br>
+[8\. CNN](https://github.com/FuZer/Study_TensorFlow/tree/master/08%20-%20CNN)<br>
 [9\. RNN](https://)<br>

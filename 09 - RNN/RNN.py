@@ -1,7 +1,6 @@
 # Recurrent Neural Network
 import numpy as np
 import tensorflow as tf
-from tensorflow.models.rnn import rnn, rnn_cell
 
 char_rdic = list('helo')  # id -> char
 char_dic = {w: i for i, w in enumerate(char_rdic)}  # char -> id
@@ -23,10 +22,10 @@ time_step_size = 4  # 'hell' -> predict 'ello'
 batch_size = 1  # one sample
 
 # RNN model
-rnn_cell = rnn_cell.BasicRNNCell(rnn_size)
+rnn_cell = tf.nn.rnn_cell.BasicRNNCell(rnn_size)
 state = tf.zeros([batch_size, rnn_cell.state_size])
 X_split = tf.split(0, time_step_size, x_data)
-outputs, state = rnn.rnn(rnn_cell, X_split, state)
+outputs, state = tf.nn.rnn(rnn_cell, X_split, state)
 
 # logits: list of 2D Tensors of shape [batch_size x num_decoder_symbols]
 # targets: list of 1D batch-sized int32 Tensors of the same length as logits.

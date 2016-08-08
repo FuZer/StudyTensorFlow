@@ -2,3 +2,4 @@
 *.gz
 !test_2.png
 events.*
+.idea/

@@ -1,7 +1,6 @@
 import tensorflow as tf
 import numpy as np
 
-
 xy = np.loadtxt('07train.txt', unpack=True)
 x_data = np.transpose(xy[0:-1])
 y_data = np.reshape(xy[-1], (4, 1))
@@ -37,6 +36,7 @@ L5 = tf.nn.relu(tf.matmul(L4, w4) + b4)
 L6 = tf.nn.relu(tf.matmul(L5, w5) + b5)
 L7 = tf.nn.relu(tf.matmul(L6, w6) + b6)
 L8 = tf.nn.relu(tf.matmul(L7, w7) + b7)
+
 hypothesis = tf.sigmoid(tf.matmul(L8, w8) + b8)
 
 with tf.name_scope('cost') as scope:

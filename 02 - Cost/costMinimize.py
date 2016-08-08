@@ -18,7 +18,7 @@ hypothesis = W * X
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 # minimize
-descent = W - tf.mul(0.1, tf.reduce_mean(tf.mul((tf.mul(W, X) - Y), X), ))
+descent = W - tf.mul(0.1, tf.reduce_mean(tf.mul( ( tf.mul(W, X) - Y ), X ), ))
 update = W.assign(descent)
 
 # before starting, initialize the variables

@@ -22,7 +22,7 @@ x = tf.placeholder("float", [None, 784])  # mnist data image of shape 28*28=784
 
 # Set model weights
 y = tf.placeholder("float", [None, 10])  # 0-9 digits recognition => 10 classes
-W1 = tf.get_variable("W1", shape=[784, 500], initializer=xaver_init(784, 500)
+W1 = tf.get_variable("W1", shape=[784, 500], initializer=xaver_init(784, 500))
 W2 = tf.get_variable("W2", shape=[500, 256], initializer=xaver_init(500, 256))
 W3 = tf.get_variable("W3", shape=[256, 10], initializer=xaver_init(256, 10))
 

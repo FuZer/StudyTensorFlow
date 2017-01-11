@@ -46,8 +46,8 @@ teX = teX.reshape(-1, 28, 28, 1)  # 28x28x1 input img
 X = tf.placeholder("float", [None, 28, 28, 1])
 Y = tf.placeholder("float", [None, 10])
 
-w2 = init_weights([3, 3, 32, 64])  # 3x3x32 conv, 64 outputs
 w = init_weights([3, 3, 1, 32])  # 3x3x1 conv, 32 outputs
+w2 = init_weights([3, 3, 32, 64])  # 3x3x32 conv, 64 outputs
 w3 = init_weights([3, 3, 64, 128])  # 3x3x32 conv, 128 outputs
 w4 = init_weights([128 * 4 * 4, 625])  # 128 filt 4 * 4 img
 w_o = init_weights([625, 10])  # FC 625 inputs, 10 outputs (labels)

@@ -41,7 +41,7 @@ train_op = tf.train.RMSPropOptimizer(0.01, 0.9).minimize(cost)
 # Launch the graph in a session
 with tf.Session() as sess:
     # you need to initialize all variables
-    tf.initialize_all_variables().run()
+    sess.run(tf.global_variables_initializer())
     for i in range(100):
         sess.run(train_op)
         result = sess.run(tf.arg_max(logits, 1))

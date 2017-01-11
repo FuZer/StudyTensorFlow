@@ -41,7 +41,7 @@ cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(activation, y))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)  # Gradient Descent
 
 # Initializing the variables
-init = tf.initialize_all_variables()
+init = tf.global_variables_initializer()
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 checkpoint_dir = "cps/"

@@ -7,7 +7,7 @@
 
 ## 개발환경
 
- 우분투 16.04 LTS, 파이선 2.7.x, TensorFlow 0.10 cpu only<br>
+ 우분투 16.04 LTS, 파이선 2.7.x, TensorFlow 0.12.1 cpu only<br>
 [파이썬 3.5버전](https://github.com/iasandcb/Study_TensorFlow)<br>
 <br>
 

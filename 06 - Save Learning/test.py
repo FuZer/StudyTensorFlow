@@ -6,9 +6,10 @@ import tensorflow as tf
 import numpy as np
 import cv2
 
-def xaver_init(n_inputs, n_outputs, uniform = True):
+
+def xaver_init(n_inputs, n_outputs, uniform=True):
     if uniform:
-        init_range = tf.sqrt(6.0/ (n_inputs + n_outputs))
+        init_range = tf.sqrt(6.0 / (n_inputs + n_outputs))
         return tf.random_uniform_initializer(-init_range, init_range)
 
     else:
@@ -17,21 +18,22 @@ def xaver_init(n_inputs, n_outputs, uniform = True):
 
 
 def getBestShift(img):
-    cy,cx = nd.measurements.center_of_mass(img)
-    print (cy,cx)
+    cy, cx = nd.measurements.center_of_mass(img)
+    print (cy, cx)
 
-    rows,cols = img.shape
-    shiftx = np.round(cols/2.0-cx).astype(int)
-    shifty = np.round(rows/2.0-cy).astype(int)
+    rows, cols = img.shape
+    shiftx = np.round(cols / 2.0 - cx).astype(int)
+    shifty = np.round(rows / 2.0 - cy).astype(int)
 
-    return shiftx,shifty
+    return shiftx, shifty
 
 
-def shift(img,sx,sy):
-    rows,cols = img.shape
-    M = np.float32([[1,0,sx],[0,1,sy]])
-    shifted = cv2.warpAffine(img,M,(cols,rows))
+def shift(img, sx, sy):
+    rows, cols = img.shape
+    M = np.float32([[1, 0, sx], [0, 1, sy]])
+    shifted = cv2.warpAffine(img, M, (cols, rows))
     return shifted
+
 
 lable = [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -59,7 +61,6 @@ b3 = tf.Variable(tf.zeros([10]))
 L2 = tf.nn.relu(tf.add(tf.matmul(L1, W2), b2))  # Softmax
 activation = tf.add(tf.matmul(L2, W3), b3)  # Softmax
 
-
 cost = tf.reduce_mean(-tf.reduce_sum(y * tf.log(activation), reduction_indices=1))  # Cross entropy
 optimizer = tf.train.GradientDescentOptimizer(0.01).minimize(cost)  # Gradient Descent
 
@@ -78,8 +79,7 @@ cv2.imwrite("pro-img/compl.png", gray_complete)
 digit_image = -np.ones(gray_complete.shape)
 height, width = gray_complete.shape
 
-
-init = tf.initialize_all_variables()
+init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 saver = tf.train.Saver()
@@ -99,7 +99,7 @@ else:
 for cropped_width in range(50, 1000, 20):
     for cropped_height in range(50, 1000, 20):
         for shift_x in range(0, width - cropped_width, cropped_width / 4):
-            for shift_y in range(0, height - cropped_height, cropped_height /4):
+            for shift_y in range(0, height - cropped_height, cropped_height / 4):
                 gray = gray_complete[shift_y:shift_y + cropped_height, shift_x:shift_x + cropped_width]
                 if np.count_nonzero(gray) <= 20:
                     continue
@@ -167,24 +167,22 @@ for cropped_width in range(50, 1000, 20):
                 print actual_w_h
                 print " "
 
-
                 prediction = [tf.reduce_max(activation), tf.argmax(activation, 1)[0]]
                 pred = sess.run(prediction, feed_dict={x: [feed]})
                 print 'the number is ' + str(pred[1])
                 print str(pred[0] * 100) + '%'
 
-                cv2.imwrite("pro-img/" + str(shift_x) + "_" + str(shift_y) + " : " + str(pred[1]) + "_" + str(pred[0] * 100)+"%.png", gray)
+                cv2.imwrite("pro-img/" + str(shift_x) + "_" + str(shift_y) + " : " + str(pred[1]) + "_" + str(
+                    pred[0] * 100) + "%.png", gray)
 
                 check = input("is it right? : ")
 
                 if (check == True):
                     sess.run(optimizer, feed_dict={x: [feed], y: [lable[pred[1]]]})
 
-                elif(check == False):
+                elif (check == False):
                     num = input("what is that? : ")
                     sess.run(optimizer, feed_dict={x: [feed], y: [lable[num]]})
-
-
 
                 digit_image[top_left[0]:bottom_right[0], top_left[1]:bottom_right[1]] = pred[1]
 
@@ -201,4 +199,3 @@ for cropped_width in range(50, 1000, 20):
 cv2.imwrite("pro-img/digitized_image.png", color_complete)
 saver.save(sess, checkpoint_dir + 'model.ckpt')
 print 'finish the test'
-

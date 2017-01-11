@@ -41,28 +41,28 @@ hypothesis = tf.sigmoid(tf.matmul(L8, w8) + b8)
 
 with tf.name_scope('cost') as scope:
     cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1-Y) * tf.log(1 - hypothesis))
-    cost_summ = tf.scalar_summary("cost", cost)
+    cost_summ = tf.summary.scalar("cost", cost)
 
 with tf.name_scope('train') as scope:
     a = tf.Variable(0.1)
     optimizer = tf.train.GradientDescentOptimizer(a)
     train = optimizer.minimize(cost)
 
-w1_hist = tf.histogram_summary("weights1", w1)
-w2_hist = tf.histogram_summary("weights2", w2)
+w1_hist = tf.summary.histogram("weights1", w1)
+w2_hist = tf.summary.histogram("weights2", w2)
 
-b1_hist = tf.histogram_summary("biases1", b1)
-b2_hist = tf.histogram_summary("biases2", b2)
+b1_hist = tf.summary.histogram("biases1", b1)
+b2_hist = tf.summary.histogram("biases2", b2)
 
-y_hist = tf.histogram_summary("y", Y)
+y_hist = tf.summary.histogram("y", Y)
 
-init = tf.initialize_all_variables()
+init = tf.global_variables_initializer()
 
 with tf.Session() as sess:
     sess.run(init)
 
-    merged = tf.merge_all_summaries()
-    writer = tf.train.SummaryWriter("./logs/xor_logs", sess.graph)
+    merged = tf.summary.merge_all()
+    writer = tf.summary.FileWriter("./logs/xor_logs", sess.graph)
 
     for step in xrange(20000):
         sess.run(train, feed_dict={X: x_data, Y: y_data})

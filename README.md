@@ -13,12 +13,12 @@
 
 ### 실습목록
 
-[1\. 선형회귀](https://github.com/FuZer/Study_TensorFlow/tree/master/01%20-%20LinearRegression) <br>
-[2\. descent 알고리즘](https://github.com/FuZer/Study_TensorFlow/tree/master/02%20-%20Cost)<br>
-[3\. 다중입력 선형회귀](https://github.com/FuZer/Study_TensorFlow/tree/master/03%20-%20MultiFeatures)<br>
-[4\. 이진 분류](https://github.com/FuZer/Study_TensorFlow/tree/master/04%20-%20Logistic%20Classification)<br>
-[5\. Softmax](https://github.com/FuZer/Study_TensorFlow/tree/master/05%20-%20Softmax%20Classification)<br>
-[6\. MNIST, 학습 세이브](https://github.com/FuZer/Study_TensorFlow/tree/master/06%20-%20Save%20Learning)<br>
-[7\. 뉴럴 네트워크](https://github.com/FuZer/Study_TensorFlow/tree/master/07%20-%20NN)<br>
-[8\. CNN](https://github.com/FuZer/Study_TensorFlow/tree/master/08%20-%20CNN)<br>
-[9\. RNN](https://github.com/FuZer/Study_TensorFlow/tree/master/09%20-%20RNN)<br>
+[1\. 선형회귀](https://github.com/FuZer/Study_TensorFlow/tree/old_version/01%20-%20LinearRegression) <br>
+[2\. descent 알고리즘](https://github.com/FuZer/Study_TensorFlow/tree/old_version/02%20-%20Cost)<br>
+[3\. 다중입력 선형회귀](https://github.com/FuZer/Study_TensorFlow/tree/old_version/03%20-%20MultiFeatures)<br>
+[4\. 이진 분류](https://github.com/FuZer/Study_TensorFlow/tree/old_version/04%20-%20Logistic%20Classification)<br>
+[5\. Softmax](https://github.com/FuZer/Study_TensorFlow/tree/old_version/05%20-%20Softmax%20Classification)<br>
+[6\. MNIST, 학습 세이브](https://github.com/FuZer/Study_TensorFlow/tree/old_version/06%20-%20Save%20Learning)<br>
+[7\. 뉴럴 네트워크](https://github.com/FuZer/Study_TensorFlow/tree/old_version/07%20-%20NN)<br>
+[8\. CNN](https://github.com/FuZer/Study_TensorFlow/tree/old_version/08%20-%20CNN)<br>
+[9\. RNN](https://github.com/FuZer/Study_TensorFlow/tree/old_version/09%20-%20RNN)<br>

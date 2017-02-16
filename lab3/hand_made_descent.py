@@ -13,7 +13,7 @@ hypothesis = W * X
 cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
 lr = 0.1
-descent = W - tf.mul(lr, tf.reduce_mean(tf.mul((tf.mul(W, X) - Y), X)))
+descent = W - tf.multiply(lr, tf.reduce_mean(tf.multiply((tf.multiply(W, X) - Y), X)))
 train = W.assign(descent)
 
 init = tf.global_variables_initializer()

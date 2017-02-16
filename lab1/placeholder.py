@@ -4,7 +4,7 @@ a = tf.placeholder(tf.int16)
 b = tf.placeholder(tf.int16)
 
 add = tf.add(a, b)
-mul = tf.mul(a, b)
+mul = tf.multiply(a, b)
 
 # Same op?
 print(add)

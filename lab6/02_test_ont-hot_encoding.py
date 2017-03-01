@@ -36,10 +36,10 @@ with tf.Session() as sess:
     print(a, sess.run(tf.argmax(a, 1)))
 
     b = sess.run(hypothesis, feed_dict={X: [[1, 3, 4]]})
-    print(a, sess.run(tf.argmax(b, 1)))
+    print(b, sess.run(tf.argmax(b, 1)))
 
     c = sess.run(hypothesis, feed_dict={X: [[1, 1, 0]]})
-    print(a, sess.run(tf.argmax(c, 1)))
+    print(c, sess.run(tf.argmax(c, 1)))
 
     all = sess.run(hypothesis, feed_dict={X: [[1, 11, 7], [1, 3, 4], [1, 1, 0]]})
     print(all, sess.run(tf.argmax(all, 1)))

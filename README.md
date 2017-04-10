@@ -3,7 +3,7 @@
 ## TensorFlow 실습 코드
 
  김성훈 교수님의 [모두를 위한 머신러닝/딥러닝 강의](http://hunkim.github.io/ml) 의 실습 코드 입니다.<br>
- 공식 [실습코드](https://github.com/hunkim/DeepLearningZeroToAll)
+ [공식 실습코드](https://github.com/hunkim/DeepLearningZeroToAll)
 <br>
 
 
